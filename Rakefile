@@ -4,13 +4,14 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
-#require 'rtagstask'
 
 require 'lib/rtagstask/version'
 
 Rake::TestTask.new(:test)
 
-Rake::RDocTask.new(:docs)
+Rake::RDocTask.new(:docs) do |t|
+  t.rdoc_dir = 'doc'
+end
 
 spec = Gem::Specification.new do |s|
   s.name       = 'rtagstask'
@@ -27,11 +28,14 @@ Rake::GemPackageTask.new(spec) do |t|
   t.need_tar = true
 end
 
-#RTagsTask.new
-
-desc 'Install as gem'
-task :install_gem do
+desc 'Install'
+task :install do
   sh 'sudo gem install pkg/rtagstask'
 end
 
-task :install_gem => :package
+task :install => :package
+
+desc 'Uninstall'
+task :uninstall do
+  sh 'sudo gem uninstall rtagstask'
+end
